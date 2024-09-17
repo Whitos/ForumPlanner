@@ -10,10 +10,6 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
-        your_firewall_name:
-            two_factor:
-                auth_form_path: 2fa_login    # The route name you have used in the routes.yaml
-                check_path: 2fa_login_check  # The route name you have used in the routes.yaml
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -26,8 +22,11 @@ security:
                 enable_csrf: true
             logout:
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
+                target: /
+
+            two_factor:
+                auth_form_path: 2fa_login    # The route name you have used in the routes.yaml
+                check_path: 2fa_login_check
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
