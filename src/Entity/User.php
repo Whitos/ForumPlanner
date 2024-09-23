@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     private bool $isVerified = false;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $googleAuthenticatorSecret;
+    private ?string $googleAuthenticatorSecret = null;
 
     /**
      * @var Collection<int, Forum>
@@ -82,9 +82,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this->googleAuthenticatorSecret;
     }
 
-    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
+    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): self
     {
         $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+
+        return $this;
     }
 
     public function getId(): ?int

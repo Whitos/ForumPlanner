@@ -43,15 +43,15 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('regconfirm@gmail.com', 'Forum Mail Bot'))
+                    ->from(new Address('forumplanerconfirm@gmail.com', 'Forum Mail Bot'))
                     ->to((string) $user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Please Confirm your Email to Activate your Account')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            // do anything else you need here, like send an email
 
-            return $security->login($user, 'form_login', 'main');
+            // do anything else you need here, like send an email
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [

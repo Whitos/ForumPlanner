@@ -1,11 +1,14 @@
-<h1>Hi! Please confirm your email!</h1>
-
-<p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
-
-<p>
-    Cheers!
-</p>
+<script src="https://cdn.tailwindcss.com"></script>
+<html lang="en">
+<body class="bg-gray-100 text-gray-900">
+<div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <h1 class="text-2xl font-bold mb-4">Hi! Please confirm your email!</h1>
+    <p class="mb-4">
+        Please confirm your email address by clicking the following link: <br><br>
+        <a href="{{ signedUrl|raw }}" class="text-blue-500 hover:underline">Confirm my Email</a>.
+        This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+    </p>
+    <p>Cheers!</p>
+</div>
+</body>
+</html>
