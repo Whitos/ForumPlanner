@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+<div class="space-y-4">
+    {{ form_row(form.title, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+    {{ form_row(form.description, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+    {{ form_row(form.capacity, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+    {{ form_row(form.duration, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+    {{ form_row(form.forum, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+
+<button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4">
+    {{ button_label|default('Save') }}
+</button>
+{{ form_end(form) }}

@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stand{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <h1 class="text-2xl font-bold mb-5">Stand Details</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6 mb-5">
+        <table class="min-w-full">
+            <tbody>
+            <tr class="border-b">
+                <th class="text-left py-2">Id</th>
+                <td class="py-2">{{ stand.id }}</td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Title</th>
+                <td class="py-2">{{ stand.title }}</td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Description</th>
+                <td class="py-2">{{ stand.description }}</td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Capacity</th>
+                <td class="py-2">{{ stand.capacity }}</td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Duration</th>
+                <td class="py-2">{{ stand.duration ? stand.duration|date('H:i:s') : '' }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-5">
+        <a href="{{ path('app_stand_index') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Back to list</a>
+        <a href="{{ path('app_stand_edit', {'id': stand.id}) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded ml-4">Edit</a>
+        {{ include('stand/_delete_form.html.twig') }}
+    </div>
+
+    <div class="mt-5">
+        <h2 class="text-xl font-bold mb-4">Evaluate this Stand</h2>
+
+        {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+        <div class="mb-4">
+            <label class="font-semibold">Note</label>
+            <div class="flex space-x-2">
+                {% for i in 1..5 %}
+                    <input type="radio" id="star{{ i }}" name="evaluation[note]" value="{{ i }}" class="hidden peer" />
+                    <label for="star{{ i }}" class="cursor-pointer">
+                        <svg class="w-6 h-6 fill-current text-gray-400 transition-colors duration-200 peer-checked:text-yellow-500 hover:text-yellow-500" viewBox="0 0 20 20">
+                            <path d="M10 15l-3.5 2.5 1-4.5L2 9.5l4.5-.5L10 5l1.5 3.5L16 9.5l-4.5 3.5 1 4.5z" />
+                        </svg>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mb-4">
+            {{ form_row(form.commentaire, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+        </div>
+        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+            Submit Evaluation
+        </button>
+        {{ form_end(form) }}
+    </div>
+
+
+    <div class="mt-5">
+        <h2 class="text-xl font-bold mb-4">Evaluations</h2>
+
+        {% for evaluation in evaluations %}
+            <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                <div class="flex items-center">
+                    <div class="font-semibold mr-2">Note:</div>
+                    {% for i in 1..5 %}
+                        {% if i <= evaluation.note %}
+                            <i class="fas fa-star text-yellow-500"></i>
+                        {% else %}
+                            <i class="far fa-star text-gray-400"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div>{{ evaluation.commentaire }}</div>
+            </div>
+        {% else %}
+            <div class="text-gray-500">No evaluations yet.</div>
+        {% endfor %}
+    </div>
+    <script>
+        document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+            radio.addEventListener('change', () => {
+                document.querySelectorAll('input[type="radio"]').forEach((r) => {
+                    const label = document.querySelector(`label[for="${r.id}"] svg`);
+                    label.classList.toggle('text-yellow-500', r.checked);
+                    label.classList.toggle('text-gray-400', !r.checked);
+                });
+            });
+        });
+    </script>
+{% endblock %}

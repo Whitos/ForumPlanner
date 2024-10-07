@@ -38,9 +38,16 @@ class Stand
     #[ORM\OneToMany(targetEntity: Timeslot::class, mappedBy: 'stand')]
     private Collection $timeSlots;
 
+    /**
+     * @var Collection<int, Evaluation>
+     */
+    #[ORM\OneToMany(targetEntity: Evaluation::class, mappedBy: 'stand')]
+    private Collection $evaluations;
+
     public function __construct()
     {
         $this->timeSlots = new ArrayCollection();
+        $this->evaluations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,5 +143,48 @@ class Stand
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Evaluation>
+     */
+    public function getEvaluations(): Collection
+    {
+        return $this->evaluations;
+    }
+
+    public function addEvaluation(Evaluation $evaluation): static
+    {
+        if (!$this->evaluations->contains($evaluation)) {
+            $this->evaluations->add($evaluation);
+            $evaluation->setStand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvaluation(Evaluation $evaluation): static
+    {
+        if ($this->evaluations->removeElement($evaluation)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluation->getStand() === $this) {
+                $evaluation->setStand(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAverageNote(): ?float
+    {
+        $nbNotes = $this->evaluations->count();     // variable $nbNotes qui va recuperer une collection de evaluations et compter le nombre de notes
+        if ($nbNotes === 0) { // si le nombre de notes est égale à 0 retourne null
+            return null;
+        }
+        $sum = 0; // variable $sum qui va recuperer la somme des notes
+        foreach ($this->evaluations as $evaluation) {    //pour chaque evaluation dans la collection d'evaluations on va recuperer la note et l'ajouter à la somme
+            $sum += $evaluation->getNote();
+        }
+        return $sum / $nbNotes;         // retourne la moyenne des notes
     }
 }

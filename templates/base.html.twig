@@ -23,9 +23,12 @@
             </button>
         </div>
         <div class="hidden md:flex space-x-4">
-            <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{{ path('app_login') }}">Login</a>
-            <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{{ path('app_register') }}">Register</a>
-            <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{{ path('app_profile') }}">Profil</a>
+            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{{ path('app_login') }}">Login</a>
+                <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{{ path('app_register') }}">Register</a>
+            {% else %}
+                <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{{ path('app_profile') }}">Profil</a>
+            {% endif %}
         </div>
     </div>
 </nav>
