@@ -13,13 +13,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/stand')]
+#[IsGranted('ROLE_ADMIN')]
 final class StandController extends AbstractController
 {
     #[Route(name: 'app_stand_index', methods: ['GET'])]
     public function index(StandRepository $standRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         return $this->render('stand/index.html.twig', [
             'stands' => $standRepository->findAll(),
         ]);
